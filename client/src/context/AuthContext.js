@@ -16,7 +16,7 @@ export function AuthProvider(props) {
         const token = localStorage.getItem('token');
         if(token){
             setAuth({token});
-            axios.get('',{
+            axios.get('http://localhost:3500/api/user/me',{
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'x-auth-token' : localStorage.getItem('token')
