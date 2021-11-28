@@ -1,17 +1,17 @@
 import './App.css';
 import {BrowserRouter,Redirect,Route,Switch} from "react-dom"
 import {AuthContext,AuthProvider} from "./context/authContext";
-
+import React from 'react';
+import { useContext} from 'react';
 function App() {
   const authContext = useContext(AuthContext);
   return (
     authContext.loading ? null :
     <BrowserRouter>
       <div>
-        <Navbar />
         <Switch>
             <Route exact path='/'>
-            {authContext.auth.token ? <Home /> : <Redirect to ='/Signin' />}
+            
             </Route>
         </Switch>
       </div>
