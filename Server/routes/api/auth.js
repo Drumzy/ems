@@ -35,4 +35,4 @@ const { User } = require("../../models/User");
      return Joi.validate(req,schema);
  }
 
- module.exports = router ;
+ module.exports = router
