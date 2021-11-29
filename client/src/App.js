@@ -6,10 +6,13 @@ import { useContext} from 'react';
 import Test from './components/admin/services';
 import Home from './pages/home';
 import SignIn from './components/Authentification/signin';
+import { Container } from '@material-ui/core';
 function App() {
   const authContext = useContext(AuthContext);
   return (
     authContext.loading ? null :
+    <Container maxWidth="md">
+      <div className="app">
     <BrowserRouter>
       <div>
         <Routes>
@@ -19,6 +22,8 @@ function App() {
         </Routes>
       </div>
     </BrowserRouter>
+    </div>
+    </Container>
   );
 }
 function FinalApp(){
