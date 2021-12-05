@@ -8,22 +8,26 @@ const { User } = require("../../models/User");
  // @route GET
  // @desc Login User
  // @access Public
- router.post("/",async (req, user) => {
+ router.post("/",async (req, res) => {
     const {error} = validate(req.body);
     if(error) return res.status(400).json({message: error.details[0].message});
 
     const {email,password} = req.body;
 
     //Checking if the user exist 
-    const user = await User.findOne({email});
-    if(!user) return res.status(400).json({message: "Invalid Email"});
-
+    const user_tmp = await User.findOne({ 'email' :email});
+  if (!user_tmp){
+    console.log("wrong email"); 
+    return res.status(400).json({ message: "Invalid email" });    
+  }
     //Validating password
-    const validPassword = await bcrypt.compare(password, user.password);
-    if(!validPassword)
-    return res.status(400).json({message: "Invalid Password"});
-
-    const token = user.generateAuthToken();
+    const validPassword = await bcrypt.compare(password, user_tmp.password);
+    console.log(validPassword);
+    if(!validPassword){
+      console.log('wrong Password');
+      return res.status(400).json({message: "Invalid Password"});
+    }
+    const token = user_tmp.generateAuthToken();
     res.json({token});
  });
 
@@ -35,4 +39,4 @@ const { User } = require("../../models/User");
      return Joi.validate(req,schema);
  }
 
- module.exports = router
+ module.exports = router;

@@ -3,10 +3,10 @@ import {BrowserRouter,Navigate,Route,Routes} from "react-router-dom"
 import {AuthContext,AuthProvider} from "./context/authContext";
 import React from 'react';
 import { useContext} from 'react';
-import Test from './components/admin/services';
 import Home from './pages/home';
 import SignIn from './components/Authentification/signin';
-import { Container } from '@material-ui/core';
+import {Container} from "@material-ui/core";
+import SignUp from './components/Authentification/signup';
 function App() {
   const authContext = useContext(AuthContext);
   return (
@@ -17,8 +17,8 @@ function App() {
       <div>
         <Routes>
           <Route path="/" element={ authContext.auth.token ? <Home /> : <Navigate to="/signin" /> } />
-          <Route path="/services" element={ <Test /> } />
           <Route path="/signin" element={ <SignIn /> } />
+          <Route path="/signup" element={ <SignUp />} />
         </Routes>
       </div>
     </BrowserRouter>
