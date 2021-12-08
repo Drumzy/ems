@@ -1,11 +1,17 @@
 import React, { useContext, useState } from 'react';
 import {AuthContext} from "../../context/authContext";
-import {Button, FormHelperText, TextField} from '@material-ui/core';
-import FormControlLabel  from '@material-ui/core/FormControlLabel';
+import {Button, FormHelperText, TextField} from '@chakra-ui/react';
+/*import FormControlLabel  from '@material-ui/core/FormControlLabel';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import Checkbox from '@material-ui/core/Checkbox';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';*/
+import {
+  FormControl,
+  FormLabel,
+  FormErrorMessage,
+  Input
+} from '@chakra-ui/react'
+import {BsFillPersonCheckFill} from 'react-icons/bs';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 const SignIn=() => {
@@ -28,26 +34,26 @@ const SignIn=() => {
     }
     return(
         <div>
+           
             <div className="icon">
                 <div className="icon_class">
-                    <PersonAddIcon fontSize="large"/>
+                    <BsFillPersonCheckFill fontSize="large"/>
                 </div>
                 <div className="text">Sign In</div>
             </div>
 
             <div className="row-m-2">
-                <TextField id="email" className="p-2" type="text" variant="outlined" label="Enter Email" fullWidth margin="dense" onChange={e=>setEmail(e.target.value)} />
-                <TextField id="Password" className="p-2" type="password" variant="outlined" label="Enter Password" fullWidth margin="dense" onChange={e=>setPassword(e.target.value)} />
-                <FormHelperText error={true}>{error}</FormHelperText>
-                <FormControlLabel
-                    control={
-                    <Checkbox
-                       icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
-                       checkedIcon={<CheckBoxIcon fontSize="small" />}
-                    />
-                    }
-                    label="Remember me"
-                />
+                    <FormControl id='email'>
+                    <FormLabel>Email address</FormLabel>
+                    <Input type='email' onChange={e=>setEmail(e.target.value)} />
+                    <FormHelperText>We'll never share your email.</FormHelperText>
+                    </FormControl>
+                    <FormControl id='password'>
+                    <FormLabel>Password</FormLabel>
+                    <Input type='password' onChange={e=>setPassword(e.target.value)} />
+                    <FormHelperText>We'll never share your email.</FormHelperText>
+                    </FormControl>
+               
             <Button variant="contained" color="primary" fullWidth onClick={e=>Login(e)} >Connect</Button>
             </div>
 
