@@ -2,12 +2,12 @@ import { Box, Link } from '@chakra-ui/react';
 import {Stack} from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import { AuthContext } from '../../context/authContext';
-import { Button, Flex } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
 import {FcBarChart} from "react-icons/fc"
 function SideBar() {
     const authContext = useContext(AuthContext);
     return ( 
-        <Box width={250} height="100vh" bgcolor="white" display="flex" flexDirection="column">
+        <Box width='25%' height="100vh" bgcolor="white" display="flex" flexDirection="column">
             <Box>   
                     <Link href="/admin/gestion_services" underline="none"><Flex><FcBarChart /> Dashboard</Flex></Link>
                     {authContext.user.isAdmin ? 

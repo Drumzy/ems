@@ -18,6 +18,7 @@ router.get("/me", auth, async (req, res) => {
             "firstName",
             "lastName",
             "email",
+            'picture',
             "isAdmin",
             "isEmployee",
             "isChef",

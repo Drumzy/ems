@@ -11,7 +11,6 @@ export function AuthProvider(props) {
     });
     const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState(true)
-
     useEffect(async () => {
         const token =  localStorage.getItem('token');
         if(token){
@@ -31,7 +30,7 @@ export function AuthProvider(props) {
             })
         }else
             setLoading(false)
-    }, [])
+    }, []);
     return (
         <AuthContext.Provider value={{auth, setAuth, user, setUser, loading, setSearch, search}}>
             {props.children}

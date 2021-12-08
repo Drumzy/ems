@@ -4,10 +4,10 @@ import { Route, Routes } from 'react-router';
 import Services from '../components/admin/services';
 function Home (){
     return(
-        <Box display="flex">
+        <Box display="flex" width="80%">
             <div>Hello im home</div>
            <Routes>
-               <Route path="/admin/gestion_services" element={ <Services />} />
+               <Route exact path="/admin/gestion_services" element={ <Services />} />
            </Routes>
         </Box>
     )
