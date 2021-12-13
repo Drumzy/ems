@@ -1,22 +1,36 @@
-import { Box } from "@chakra-ui/react";
+import React from 'react';
+import { Box,Link } from "@chakra-ui/react";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
 import { BsSearch } from "react-icons/bs";
+import { IconButton } from "@chakra-ui/button";
+import { Tooltip } from "@chakra-ui/tooltip";
 import {InputGroup, InputLeftElement, Input, Wrap, WrapItem, Avatar, AvatarBadge} from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../context/authContext";
+import './header.css'
 function Header() {
     const authContext = useContext(AuthContext);
-    console.log(authContext.user.picture)
+    const Logout = () =>{
+        localStorage.removeItem('token');
+        window.location.href = "/signin" ;
+    }
     return ( 
-        <Box w="100%" h="50px" display="flex" p={2} alignItems='center'>
+        <Box w="100%" h="225px" display="flex" bg="linear-gradient(90deg, rgba(40,84,216,1) 0%, rgba(48,62,145,1) 100%);" p={2} alignItems='flex-start' justifyContent="space-between">
             <InputGroup flexBasis='60%' marginTop={2}>
                 <InputLeftElement
                 pointerEvents="none"
                 children={<BsSearch color="gray.300" />} />
-            <Input type="text" placeholder="Enter your search"/>    
+            <Input type="text" bg="rgba(255,255,255,0.7259278711484594)" placeholder="Enter your search"/>    
             </InputGroup>
-            <Wrap flexBasis='40%' marginRight={5} marginTop={2}>
-                <WrapItem justifyContent='flex-end' ><Avatar name={authContext.user.firstName +' '+ authContext.user.lastName} src={'http://localhost:3000'}><AvatarBadge boxSize='1.25em' bg='green.500'/></Avatar></WrapItem>
-            </Wrap>
+            <Menu flexBasis="40%">
+                <MenuButton mx="15px" marginTop={2}>
+                    <Avatar name={authContext.user.firstName +' '+ authContext.user.lastName} src={'http://localhost:3000'}><AvatarBadge boxSize='1.25em' bg='green.500'/></Avatar>
+                </MenuButton>
+                <MenuList>
+                    <MenuItem>Account</MenuItem>
+                    <MenuItem onClick={Logout}>Logout</MenuItem>
+                </MenuList>
+            </Menu>
         </Box>
      );
 }

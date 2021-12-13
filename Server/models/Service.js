@@ -1,26 +1,32 @@
-import { Schema, model } from "mongoose";
-import { string, validate as _validate } from "joi";
-const serviceSchema = new Schema({
+const mongoose = require("mongoose");
+const Joi = require("joi");
+
+const serviceSchema = new mongoose.Schema({
     ServiceName: {
         type: String,
         required: true,
-        minlength:10,
+        minlength:4,
         maxlength:50,
     },
-    user_id: {
-        type: Schema.Types.ObjectId,
+    ServiceChef: {
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
+    EmployeeNumber:{
+        type: Number,
+        required: false,
+    }
 
 
 });
-const Service = model("Service",serviceSchema);
+
+const Service = mongoose.model("Service",serviceSchema);
 
 const validateService = (Service) => {
     const schema = {
-        ServiceName: string().min(10).max(50).required(),
+        ServiceName: Joi.string().min(5).max(50).required(),
     }
-    return _validate(Service, schema);
+    return Joi.validate(Service, schema);
 }
 
-export default {Service, validate: validateUser};
+module.exports = {Service, validate: validateService};

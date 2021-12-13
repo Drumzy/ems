@@ -31,6 +31,7 @@ const SignIn=() => {
             window.location.reload(false);
         }).catch(err=>setError('Wrong details!'))
         authContext.setAuth({token,email});
+
     }
     return(
         <div>
@@ -54,7 +55,7 @@ const SignIn=() => {
                     <FormHelperText>We'll never share your email.</FormHelperText>
                     </FormControl>
                
-            <Button variant="contained" color="primary" fullWidth onClick={e=>Login(e)} >Connect</Button>
+            <Button variant="contained" color="primary"  onClick={e=>Login(e)} >Connect</Button>
             </div>
 
         </div>

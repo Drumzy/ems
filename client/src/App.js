@@ -15,24 +15,22 @@ function App() {
     authContext.loading ? null :
     <ChakraProvider>
     <BrowserRouter>
-        <Routes>
-          <Route path="/signin" element={ <SignIn /> } />
-          <Route path="/signup" element={ <SignUp />} />
-        </Routes>
         {authContext.auth.token ?
-        <Box display="flex">
+        <Box display="flex" >
         <SideBar />
-        <Box display="flex" flexDirection="column">
+        <Box width="100%">
           <Header />
         <Routes>
-          <Route path="/home/*" element={ <Home /> } />
-          <Route exact path="/" element={<Navigate replace to="/home" />}/>
+          <Route  path="/home/*" element={!authContext.auth.token ? <Navigate to="/signin" /> : <Home /> } />
         </Routes>
         </Box>
         </Box>
         :
-        <Navigate to="/signin" />
+         <Routes>
+          <Route path="/signin" element={ <SignIn /> } />
+          </Routes>
         }
+        
     </BrowserRouter>
     </ChakraProvider>
   );
