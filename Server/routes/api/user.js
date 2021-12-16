@@ -19,17 +19,26 @@ router.get("/me", auth, async (req, res) => {
             "lastName",
             "email",
             'picture',
-            "isAdmin",
-            "isEmployee",
-            "isChef",
+            "Rank",
         ])
     );
 });
 
+// @route GET api/user/all
+// @desc users info
+// @access private
+router.get("/all", auth, async (req, res) => {
+    const users = await User.find().select("-password");
+    if(!users) res.status(400).json({message: "Empty List"});
+    
+    return res.status(200).json(users);
+
+})
+
 // @route POST api/user
 // @desc register user
-// @access Public
-router.post("/", async (req, res) =>{
+// @access Private
+router.post("/add_user", auth,async (req, res) =>{
     console.log(req.body);
     const {error} = validate(req.body);
     if(error) return res.status(400).send(error.details[0].message);
@@ -42,12 +51,15 @@ router.post("/", async (req, res) =>{
 
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
+    Rank2 = req.body.Rank;
 
     user = new User({
         ...req.body,
         password:hash,
         firstName: req.body.firstName,
-        lastName: req.body.lastName
+        lastName: req.body.lastName,
+        email : req.body.email,
+        Rank : Rank2
         .split(" ")
         .concat(Math.floor(Math.random() * 100))
         .join("."),
@@ -64,9 +76,7 @@ router.post("/", async (req, res) =>{
             "lastName",
             "email",
             "password",
-            "isChef",
-            "isEmployee",
-            "isAdmin",
+            "Rank",
         ]),
     });
 });

@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react';
 import React from 'react';
 import { Route, Routes } from 'react-router';
+import Employees from '../components/admin/empoyee';
 import Services from '../components/admin/services';
 import Dashboard from './dashboard';
 function Home (){
@@ -10,6 +11,7 @@ function Home (){
                <Route  path="admin/gestion_services" element={ <Services />} />
                <Route  path="dashboard" element={ <Dashboard /> } />
                <Route  path="services" element={ <Services />} />
+               <Route  path="employees" element={<Employees />} />
            </Routes>
         </Box>
     )

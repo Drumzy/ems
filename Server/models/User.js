@@ -34,24 +34,15 @@ const userSchema = new mongoose.Schema({
         minlength:5,
         maxlength:1024,
     },
-    isAdmin:{
-        type:Boolean,
-        default: false,
+    Rank:{
+        type:String,
+        default: "isEmployee",
     },
-    isEmployee:{
-        type:Boolean,
-        default:true,
-    },
-    isChef:{
-        type:Boolean,
-        defualt:false,
-    },
-
 });
 
 userSchema.methods.generateAuthToken = function () {
     const token = jwt.sign(
-        {_id: this._id, isAdmin:this.isAdmin, isChef:this.isChef},
+        {_id: this._id, Rank:this.Rank},
         process.env.JWT_SECRET
     );
     return token;
