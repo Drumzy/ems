@@ -1,19 +1,14 @@
 import React, { useContext, useState } from 'react';
 import {AuthContext} from "../../context/authContext";
-import {Button, FormHelperText, TextField} from '@chakra-ui/react';
-/*import FormControlLabel  from '@material-ui/core/FormControlLabel';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
-import Checkbox from '@material-ui/core/Checkbox';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';*/
-import {
-  FormControl,
-  FormLabel,
-  FormErrorMessage,
-  Input
-} from '@chakra-ui/react'
+import {Box, Button, FormHelperText, Text} from '@chakra-ui/react';
+import { FormControl, FormLabel, Input } from '@chakra-ui/react'
+import { Image } from '@chakra-ui/react';
+import logo from '../../img/palm-recognition.png';
 import {BsFillPersonCheckFill} from 'react-icons/bs';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+import "./auth.css";
+
 const SignIn=() => {
     const navigate = useNavigate();
     const [email, setEmail] = useState('');
@@ -34,16 +29,15 @@ const SignIn=() => {
 
     }
     return(
-        <div>
+        <Box  display="flex" flexDirection="row" alignItems="center" p={5} borderRadius={15} border="1px solid #2952D1" w={800} justifyContent={"center"} >
            
-            <div className="icon">
-                <div className="icon_class">
-                    <BsFillPersonCheckFill fontSize="large"/>
-                </div>
-                <div className="text">Sign In</div>
-            </div>
+            <Image src={logo} w="50%"></Image>
 
-            <div className="row-m-2">
+            <Box display={"flex"} flexDirection={"column"} p={5}>
+                    <Box display="flex" alignItems="center" my={15}>
+                        <BsFillPersonCheckFill size={36} />
+                    <Text mx="10px">Sign In</Text>
+                    </Box>
                     <FormControl id='email'>
                     <FormLabel>Email address</FormLabel>
                     <Input type='email' onChange={e=>setEmail(e.target.value)} />
@@ -52,13 +46,13 @@ const SignIn=() => {
                     <FormControl id='password'>
                     <FormLabel>Password</FormLabel>
                     <Input type='password' onChange={e=>setPassword(e.target.value)} />
-                    <FormHelperText>We'll never share your email.</FormHelperText>
+                    <FormHelperText>Avoid making simple password to prevent them being hacked !</FormHelperText>
                     </FormControl>
                
-            <Button variant="contained" color="primary"  onClick={e=>Login(e)} >Connect</Button>
-            </div>
+            <Button  color="green" my={5} onClick={e=>Login(e)} >Connect</Button>
+            </Box>
 
-        </div>
+        </Box>
         
     )
 }

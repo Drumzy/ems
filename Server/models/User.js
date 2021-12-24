@@ -56,6 +56,7 @@ const validateUser = (user) => {
         lastName: Joi.string().min(4).max(50).required(),
         email: Joi.string().min(5).max(255).required(),
         password: Joi.string().min(5).max(1024).required(),
+        Rank: Joi.string().valid('isAdmin', 'isEmployee', 'isChef').required(),
     }
     return Joi.validate(user, schema);
 }

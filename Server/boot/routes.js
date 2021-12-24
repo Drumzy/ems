@@ -7,7 +7,7 @@ const path = require("path");
 const auth = require("../routes/api/auth");
 const user = require("../routes/api/user");
 const service = require("../routes/api/service");
-
+const notice = require ("../routes/api/notice");
 
 module.exports = (app) => {
     app.use("/static", express.static(path.join(__dirname, "..", "public")));
@@ -17,4 +17,5 @@ module.exports = (app) => {
     app.use("/api/user", user);
     app.use("/api/service", service);
     app.use("/api/auth", auth);
+    app.use("/api/notice", notice);
 }

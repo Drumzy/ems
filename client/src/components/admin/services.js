@@ -1,8 +1,10 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 import { Table, Thead, Tbody,Tr, Th, Td} from '@chakra-ui/react';
 import {Button, Text} from "@chakra-ui/react";
 import { useDisclosure } from '@chakra-ui/react'
 import {AiOutlinePlus,AiTwotoneDelete} from "react-icons/ai";
+import {MdUpdate} from "react-icons/md";
+import {MdPageview} from "react-icons/md";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody,  ModalCloseButton,} from '@chakra-ui/react';
 import { useToast } from '@chakra-ui/react'
 import { Alert, AlertIcon, AlertTitle,} from '@chakra-ui/react'
@@ -19,17 +21,28 @@ function Services() {
     const [serviceName,setServiceName] = useState('');
     const [rows, setRows] = useState([]);
     const [addModal,setaddModal] = useState(false);
+    const [viewModal,setviewModal] = useState(false);
     const [updateModal,setupdateModal] = useState(false);
     const [deleteModal,setdeleteModal] = useState(false);
+    const [service_view,setServiceView] = useState([]);
+    const [serviceChef,setServiceChef] = useState([]);
+    const [serviceEmployee, setServiceEmployee] = useState([]);
+    let chefs =[];
+    let employees = [];
     const selectModal = (service_id,e) =>{
-        if(e == "add-service-btn"){
+        if(e === "add-service-btn"){
             setaddModal(true);
-        }else if(e == "update-service-btn"){
+        }else if(e === "update-service-btn"){
             setupdateModal(true);
             localStorage.setItem('service_id',service_id);
-        }else if(e == "delete-service-btn"){
+        }else if(e === "delete-service-btn"){
             setdeleteModal(true);
             localStorage.setItem('service_id',service_id);
+        }else if(e === "view-service-btn"){
+            setviewModal(true);
+            localStorage.setItem('service_id',service_id);
+            setServiceView(rows.find(element => element._id === service_id));
+            setServiceChef(service_view['ServiceChef']);
         }
     }
     function AddedToast(){
@@ -118,9 +131,10 @@ function Services() {
                     });
             }
     useEffect(() => {
+        newFunction();
         const interval = setInterval(()=>{
          newFunction();
-        },3500);
+        },3000);
         return () =>clearInterval(interval);
     },[]);
 
@@ -134,8 +148,7 @@ function Services() {
                 <Thead>
                     <Tr>
                         <Th>Service</Th>
-                        <Th>Chef de Service</Th>
-                        <Th>Nombre des employees</Th>
+                        
                         <Th>Actions</Th>
                     </Tr>
                 </Thead>
@@ -144,10 +157,9 @@ function Services() {
                         row != '' ?
                         <Tr key={row._id} id={row._id}  _hover={{backgroundColor:"#758dd6",transition:"0.8s ease-out"}}>
                             <Td mx={2} my={3}>{row.ServiceName}</Td>
-                            <Td mx={2} my={3}>{row.ServiceChef}</Td>
-                            <Td mx={2} my={3}>{row.EmployeeNumber}</Td>
-                            <Td display="flex" flexDirection="row">
-                            <Button mx={2} my={2} id="update-service-btn" variant="outline" colorScheme="#FF5600" color="#FF5600" onClick={e=>selectModal(row._id,e.currentTarget.id)}><AiTwotoneDelete /></Button>
+                            <Td mx={2} my={3}>
+                            <Button mx={2} my={2} id="view-service-btn" variant="outline" colorScheme="#38B2AC" color="#38B2AC" onClick={e=>selectModal(row._id,e.currentTarget.id)}><MdPageview /></Button>
+                            <Button mx={2} my={2} id="update-service-btn" variant="outline" colorScheme="#FF5600" color="#FF5600" onClick={e=>selectModal(row._id,e.currentTarget.id)}><MdUpdate /></Button>
                             <Button mx={2} my={2} id="delete-service-btn" variant="outline" colorScheme="red" color="red" onClick={e=>selectModal(row._id,e.currentTarget.id,)}><AiTwotoneDelete /></Button>
                             </Td>
                         </Tr>
@@ -173,6 +185,27 @@ function Services() {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
+            
+            <Modal isOpen={viewModal} onClose={function(event){onClose();setviewModal(false);}}>
+            <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader><Heading size="md">{service_view.ServiceName}</Heading></ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody>
+                        <Box>
+                          <Box>
+                              <Heading size={'sm'} >Chef Service</Heading>
+                              {serviceChef != null ? <Text marginBottom={5}>{serviceChef.lastName +" "+ serviceChef.firstName}</Text> : ''}
+                              <Heading size={'sm'} >Nombre des employees</Heading>
+                              {serviceChef != null ? <Text marginBottom={5}>{service_view.EmployeeNumber}</Text> : ''}
+                          </Box>
+                        </Box>
+                    </ModalBody>
+
+                    
+                </ModalContent>
+            </Modal>
+
             <Modal isOpen={updateModal} onClose={function(event){onClose();setupdateModal(false);}}>
             <ModalOverlay />
                 <ModalContent>

@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
+import { useNavigate,useLocation,Navigate } from "react-router-dom";
 
 export const AuthContext = React.createContext();
 export function AuthProvider(props) {
@@ -27,6 +28,7 @@ export function AuthProvider(props) {
             .catch(err => {
                 console.log(err.message)
                 setLoading(false)
+                localStorage.clear();
             })
         }else
             setLoading(false)
@@ -36,4 +38,18 @@ export function AuthProvider(props) {
             {props.children}
         </AuthContext.Provider>
     )
+}
+
+function useAuth() {
+  return React.useContext(AuthContext);
+}
+
+export function RequireAuth ({children}){
+    let auth = useAuth();
+    let location = useLocation();
+    console.log(auth);
+    if(!auth.user.token){
+        return <Navigate to ="/signin" state={{from : location}} /> ;
+    }
+    return children ;
 }

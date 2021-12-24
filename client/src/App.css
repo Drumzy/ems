@@ -1,27 +1,7 @@
-
-.app {
-  margin: 50px;
-  padding: 50px;
-  justify-content: center;
-  box-shadow: 5px 5px 5px 2px rgb(39, 54, 61);
-  background-color: rgb(204, 216, 221);
-  height: 50vh;
-  display: flex;
-  margin-top: 120px;
+.signin-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
 }
-.icon{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.text{
-  color: rgb(15, 15, 19);
-  font-weight: bold;
-  font-size: 40px;
-  margin-bottom: 40px;
-}
-.icon_class>.MuiSvgIcon-root{
-  color: rgb(65, 72, 177);
-}
-
-

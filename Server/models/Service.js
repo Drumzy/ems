@@ -15,8 +15,11 @@ const serviceSchema = new mongoose.Schema({
     EmployeeNumber:{
         type: Number,
         required: false,
-    }
-
+    },
+    Employees:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    }],
 
 });
 
