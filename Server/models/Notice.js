@@ -18,6 +18,10 @@ const noticeSchema = new mongoose.Schema({
         type:Date,
         required:true,
     },
+    Status:{
+        type:String,
+        required:true,
+    },
 });
 
 const Notice = mongoose.model("Notice",noticeSchema);
@@ -27,6 +31,7 @@ const validateNotice = (Notice) =>{
         StartDate: Joi.date().required(),
         Duration: Joi.number().required(),
         FinishDate: Joi.date().required(),
+        Status: Joi.string().valid('onHold','Accepted','Refused').required(),
     }
     return Joi.validate(Notice,schema);
 }

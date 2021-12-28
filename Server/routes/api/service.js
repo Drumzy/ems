@@ -106,7 +106,49 @@ router.post("/promote_employee", async (req,res) =>{
                 }); 
         }
     }
+});
+
+router.post("/commun_employees", async(req, res) =>{
+    let service = await Service.findOne({ServiceChef:req.body.Employee_id}).populate({ path:'Employees',
+        select:'-password',});
+     if(!service) return res.status(400).json({message: "No Service with this chef exists"});
+     return res.status(200).json(_.pick(service,
+        [
+            "_id",
+            "ServiceName",
+            "ServiceChef",
+            "EmployeeNumber",
+            "Employees",
+        ])
+        );
+
+});
+
+router.post("/delete_from_service", async (req,res) =>{
+    let service = await Service.findOne({ServiceChef:req.body.ChefId});
+    if(!service) return res.status(400).json({message : "No service found"});
+    let exist = false;
+
+    if(service){
+        service.Employees.map(employee =>{
+        if(employee.toString() !== req.body.Employee_id){
+            exist = false ;
+        }else{
+            exist = true ;
+        }
+    });
+
+    if(exist === true){
+            service.Employees.splice(indexOf(req.body.Employee_id),1);
+            service.EmployeeNumber-=1;
+            service.save().then(()=>{
+                return res.status(200).json({message: "Employee Supprimée"});
+            })
+    }
+    }
+    
 })
+
 const validateService = (req) => {
     const schema = {
         ServiceName: Joi.string().min(5).max(50).required(),

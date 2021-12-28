@@ -11,7 +11,7 @@ const _ = require("lodash");
 // @desc user info
 // @access private
 router.get("/me", auth, async (req, res) => {
-    const user = await User.findById(req.user._id).select("-password")
+    const user = await User.findById(req.user._id)
     res.json(
         _.pick(user, [
             "_id",
@@ -20,6 +20,7 @@ router.get("/me", auth, async (req, res) => {
             "email",
             'picture',
             "Rank",
+            "password",
         ])
     );
 });

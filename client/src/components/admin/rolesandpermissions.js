@@ -1,7 +1,8 @@
 import { Box, Button, Text, Heading, InputGroup, InputRightElement, Select, useDisclosure } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {AiOutlineUsergroupAdd, AiOutlineSearch} from "react-icons/ai";
 import {GiTeamUpgrade} from "react-icons/gi" ;
+import { Table, Thead, Tbody,Tr, Th, Td} from '@chakra-ui/react';
 import {TiTick} from "react-icons/ti";
 import { FormControl,FormLabel,Input } from "@chakra-ui/react";
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody,  ModalCloseButton,} from '@chakra-ui/react';
@@ -14,9 +15,11 @@ function RolesAndPermissions() {
     const [searchInputdisabled,setSearchInputDisabled] = useState(false);
     const [errorMessage,setErrorMessage] = useState('');
     const [services,setServices]= useState([]);
+    const [notices,setNotices]= useState([]);
     const [safeAffect,setSafeAffect] = useState(true);
     const [selectedEmployee,setSelectedEmployee] = useState([]);
     const [selectedService, setSelectedService] = useState('');
+    const [selectedNotice, setSelectedNotice] = useState('');
     const selectModal = (e) =>{
         if(e === "affect-employee"){
             setAffectModal(true);
@@ -98,13 +101,68 @@ function RolesAndPermissions() {
                 console.log(res.data);
             })
         }
-    }  
+    } 
+    const NoticeData = (e) =>{
+        let tmp = e ;
+        tmp = tmp.split(' ');
+        let data ={NoticeId:tmp[0],EmployeeId:tmp[1]};
+        return data ;
+    }
+    const AcceptNotice = (e) =>{
+       const data =  NoticeData(e);
+       axios.post("http://localhost:3500/api/notice/accept_notice",data).then((res)=>{
+           console.log(res.data);
+       })
+    }
+    const DenyNotice = (e) =>{
+        const data = NoticeData(e);
+       axios.post("http://localhost:3500/api/notice/deny_notice",data).then((res)=>{
+           console.log(res.data);
+       })
+    }
+    function newFunction(){
+         axios.get('http://localhost:3500/api/notice/all', { headers: { 'Content-Type': 'application/json', 'X-Auth-Token': `${localStorage.getItem('token')}` } })
+                    .then((res) => {
+                        setNotices(res.data);
+                    });
+            }
+     useEffect(() => {
+         const interval = setInterval(()=>{
+            newFunction();
+         },3500)
+         return () => clearInterval(interval);
+     }, []);
     return ( 
         <Box display={"flex"} w={"100%"} justifyContent={"space-evenly"}>
-            <Box w={"45%"} marginTop={-45} h={"80vh"} bgColor={"white"} borderRadius={15} display={"flex"} justifyContent={"center"}>
+            <Box w={"51%"} marginTop={-45}  bgColor={"white"} borderRadius={15} display={"flex"}  alignItems={"center"} flexDirection={"column"}>
                 <Heading size={'md'} my={5}> Permissions de Congés</Heading>
+                <Table>
+                    <Thead>
+                        <Tr>
+                            <Th>Nom</Th>
+                            <Th>Prénom</Th>
+                            <Th>Durée</Th>
+                            <Th>Action</Th>
+                        </Tr>
+                    </Thead>
+                    <Tbody>
+                        {notices.map(notice=>
+                            notice !== '' && notice.Status === 'onHold'?
+                            <Tr key={notice._id} _hover={{backgroundColor:"#758dd6",transition:"0.8s ease-out"}} >
+                                <Td mx={2} my={3}>{notice.Employee.firstName}</Td>
+                                <Td mx={2} my={3}>{notice.Employee.lastName}</Td>
+                                <Td mx={2} my={3}>{notice.Duration}</Td>
+                                <Td mx={2} my={3} >
+                                    <Button mx={2} id={notice._id+" "+notice.Employee._id} variant="outline" size='sm' colorScheme="green" color="green" onClick={e=>AcceptNotice(e.currentTarget.id)}>Accepter</Button>
+                                    <Button mx={2} id={notice._id+" "+notice.Employee._id} variant="outline" size='sm' colorScheme="red" color="red" onClick={e=>DenyNotice(e.currentTarget.id)}>Réfuser</Button>
+                                </Td>
+                            </Tr>
+                            :null
+                        )}
+                    </Tbody>
+                </Table>
             </Box>
-            <Box w={"45%"} marginTop={-45} h={"80vh"} bgColor={"white"} borderRadius={15} display={"flex"} alignItems={"center"} flexDirection={"column"}>
+            <Box w={"45%"} marginTop={-45}  bgColor={"white"} borderRadius={15} display={"flex"} alignItems={"center"} flexDirection={"column"}>
                 <Heading size={'md'} my={5}> Affectation des Roles</Heading>
                 <Button id="affect-employee" leftIcon={<AiOutlineUsergroupAdd />} color='green' variant={'outline'} my={25} onClick={e=>selectModal(e.currentTarget.id)}>Affecter un employee dans un service</Button>
                 <Button id="upgrade-employee" leftIcon={<GiTeamUpgrade />} color='#FF5600' variant={'outline'} my={25} onClick={e=>selectModal(e.currentTarget.id)}>Promouvoir un employee pour le role d'un chef </Button>

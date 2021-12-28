@@ -18,20 +18,37 @@ router.get("/all", auth, async (req,res) =>{
 });
 
 router.post("/notice_demande", async (req,res)=>{
-    console.log(req.body);
     let notice = await Notice.findOne({Employee : req.body.Employee_id});
 
     if(notice) return res.status(400).json({message: "You already requested a notice "});
 
     notice = new Notice({
         ...req.body,
-        Employee: new mongoose.Types.ObjectId(req.body.Employee_id),
+        Employee: req.body.Employee_id,
         StartDate: req.body.StartDate,
         Duration: req.body.Duration,
-        FinishDate : req.body.FinishDate
+        FinishDate : req.body.FinishDate,
+        Status : req.body.Status,
     });
+    console.log(notice);
     notice = await notice.save();
     return res.status(200).json({message : "Notice Added"});
+});
+
+router.post("/accept_notice",async (req,res) =>{
+    let notice = await Notice.findByIdAndUpdate(req.body.NoticeId,{Status:'Accepted'});
+
+    if(!notice) return res.status(400).json({message: "Error while updating the notice"});
+
+    return res.status(200).json({message : "Notice Status Updated"});
+});
+
+router.post("/deny_notice",async (req,res) =>{
+    let notice = await Notice.findByIdAndUpdate(req.body.NoticeId,{Status:"Denied"});
+
+    if(!notice) return res.status(400).json({message:"Error while updating notice status"});
+
+    return res.status(200).json({message:"Notice Status Updated "}) ;
 });
 
 const validateNotice = (req) =>{

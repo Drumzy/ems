@@ -10,12 +10,15 @@ import { AuthContext } from "../../context/authContext";
 import './header.css'
 function Header() {
     const authContext = useContext(AuthContext);
+    const Account = () =>{
+        window.location.href = '/home/myaccount';
+    }
     const Logout = () =>{
         localStorage.removeItem('token');
         window.location.href = "/signin" ;
     }
     return ( 
-        <Box w="100%" h="225px" display="flex" bg="linear-gradient(90deg, rgba(40,84,216,1) 0%, rgba(48,62,145,1) 100%);" p={2} alignItems='flex-start' justifyContent="space-between">
+        <Box w="100%" h="25%" display="flex" bg="linear-gradient(90deg, rgba(40,84,216,1) 0%, rgba(48,62,145,1) 100%);" p={2} alignItems='flex-start' justifyContent="space-between">
             <InputGroup flexBasis='60%' marginTop={2}>
                 <InputLeftElement
                 pointerEvents="none"
@@ -24,10 +27,10 @@ function Header() {
             </InputGroup>
             <Menu flexBasis="40%">
                 <MenuButton mx="15px" marginTop={2}>
-                    <Avatar name={authContext.user.firstName +' '+ authContext.user.lastName} src={'http://localhost:3000'}><AvatarBadge boxSize='1.25em' bg='green.500'/></Avatar>
+                    <Avatar name={authContext.user.firstName +' '+ authContext.user.lastName} src={'http://localhost:3500'+authContext.user.picture}><AvatarBadge boxSize='1.25em' bg='green.500'/></Avatar>
                 </MenuButton>
                 <MenuList>
-                    <MenuItem>Account</MenuItem>
+                    <MenuItem onClick={Account}>Account</MenuItem>
                     <MenuItem onClick={Logout}>Logout</MenuItem>
                 </MenuList>
             </Menu>

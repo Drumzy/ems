@@ -43,6 +43,7 @@ function Services() {
             localStorage.setItem('service_id',service_id);
             setServiceView(rows.find(element => element._id === service_id));
             setServiceChef(service_view['ServiceChef']);
+            console.log(service_view);
         }
     }
     function AddedToast(){

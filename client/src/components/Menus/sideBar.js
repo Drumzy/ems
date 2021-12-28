@@ -14,7 +14,7 @@ function SideBar() {
             <Heading as="h3" size='lg' mx={75} marginTop="25px" w="150px">EMS APP</Heading>
             <Box height="500px" display="flex" flexDirection="column" justifyContent="center" alignItems="flex-start" marginLeft="5px">   
                     <Link href="/home/dashboard" className="side-bar-link" my="5px"><Flex alignItems="center"><FcBarChart /> Dashboard</Flex></Link>
-                    {authContext.user.Rank == "isAdmin" ? 
+                    {authContext.user.Rank === "isAdmin" ? 
                         <Box >
                         <Link href="/home/employees" className="side-bar-link" my="5px"><Flex alignItems="center"><FcBarChart />Gestion des employees</Flex></Link>
                         <Link href="/home/services" className="side-bar-link" my="5px"><Flex alignItems="center"><FcBarChart />Gestion des services</Flex></Link>
@@ -23,9 +23,18 @@ function SideBar() {
                         :
                         <p></p>
                     }
-                    {authContext.user.Rank == "isEmployee" ?
-                        <Box spacing={1}>
-                        <Link href="/home/dashboard" className="side-bar-link" my="5px"><Flex alignItems="center" ><FcBarChart />Demande Congée</Flex></Link>
+                    {authContext.user.Rank === "isChef" ?
+                        <Box >
+                        <Link href="/home/noticedemande" className="side-bar-link" my="5px"><Flex alignItems="center" ><FcBarChart />Demande Congée</Flex></Link>
+                        <Link href="/home/service_employees" className="side-bar-link" my="5px"><Flex alignItems="center" ><FcBarChart />Gestion des employees</Flex></Link>
+                        </Box>
+                        :
+                        null
+
+                    }
+                    {authContext.user.Rank === "isEmployee" ?
+                        <Box >
+                        <Link href="/home/noticedemande" className="side-bar-link" my="5px"><Flex alignItems="center" ><FcBarChart />Demande Congée</Flex></Link>
                         </Box>
                         :
                         <p></p>
