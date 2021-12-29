@@ -38,6 +38,12 @@ const userSchema = new mongoose.Schema({
         type:String,
         default: "isEmployee",
     },
+    Credit:{
+        type: Number,
+        required:true,
+        min:0,
+        max:150,
+    }
 });
 
 userSchema.methods.generateAuthToken = function () {
@@ -57,6 +63,7 @@ const validateUser = (user) => {
         email: Joi.string().min(5).max(255).required(),
         password: Joi.string().min(5).max(1024).required(),
         Rank: Joi.string().valid('isAdmin', 'isEmployee', 'isChef').required(),
+        Credit: Joi.number().min(0).max(150).required(),
     }
     return Joi.validate(user, schema);
 }

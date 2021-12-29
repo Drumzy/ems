@@ -21,7 +21,7 @@ router.post("/notice_demande", async (req,res)=>{
     let notice = await Notice.findOne({Employee : req.body.Employee_id});
 
     if(notice) return res.status(400).json({message: "You already requested a notice "});
-
+    console.log(req.body);
     notice = new Notice({
         ...req.body,
         Employee: req.body.Employee_id,

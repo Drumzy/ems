@@ -6,6 +6,10 @@ const router = express.Router();
 const mongoose = require("mongoose");
 const Joi = require("joi");
 const _ = require("lodash");
+const debug = require("debug")("app:routes");
+const {join, basename} = require("path");
+const {moveFile, deleteFile} = require("../../utilities/fileManager");
+const {uploadImage, fileUploadPaths,} = require("../../middleware/uploadHandler");
 
 // @route GET api/user/me
 // @desc user info
@@ -21,6 +25,7 @@ router.get("/me", auth, async (req, res) => {
             'picture',
             "Rank",
             "password",
+            "Credit",
         ])
     );
 });
@@ -50,6 +55,7 @@ router.get("/userId=:_id",  async (req, res) => {
             "email",
             'picture',
             "Rank",
+            "Credit",
         ])
     );
     
@@ -76,7 +82,8 @@ router.post("/add_user", auth,async (req, res) =>{
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email : req.body.email,
-        Rank : Rank2
+        Rank : Rank2,
+        Credit:150,
     });
 
     user = await user.save();
@@ -91,6 +98,7 @@ router.post("/add_user", auth,async (req, res) =>{
             "email",
             "password",
             "Rank",
+            "Credit",
         ]),
     });
 });
@@ -125,4 +133,46 @@ const validateUser = (req) => {
      return Joi.validate(req,schema);
  };
 
- module.exports = router ;
+// @route   GET api/user/update
+// @desc    update profile
+// @access  private
+router.patch("/update",auth,uploadImage.single("picture"), async (req, res)=>{
+     //const {error} = validateUser(req.body);
+     //if(error) return res.status(400).send(error.details[0].message);
+     
+     let _id = req.body.userId ;
+     
+     const user = await User.findById(req.body.userId);
+     let update_values = req.body;
+     delete update_values.userId;
+
+     if(req.file){
+         let image_filename = basename(user.picture);
+         const imageName = req.file.filename;
+         if(imageName !== image_filename && image_filename !== "default.png")
+             deleteFile(
+                 join(fileUploadPaths.USER_PROFIL_UPLOAD_PATH, image_filename)
+             );
+
+         path = `${fileUploadPaths.USER_IMAGE_URL}/${imageName}` ;
+         update_values = {...update_values, picture: path};
+        moveFile(
+            join(fileUploadPaths.FILE_UPLOAD_PATH, imageName),
+             join(fileUploadPaths.USER_PROFIL_UPLOAD_PATH, imageName)
+         );
+     }
+
+     let newUser = await User.findByIdAndUpdate(
+         _id,
+         update_values,
+         {new : true}
+     ).select("-password");
+     if(newUser){
+         res.status(200).json({message: "userUpdated"});
+     }else{
+         res.status(400).json({message: "User didn't update"});
+     }
+     
+});
+
+module.exports = router ;
