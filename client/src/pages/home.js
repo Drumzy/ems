@@ -8,6 +8,7 @@ import ServiceEmployee from '../components/chef/serviceemployees';
 import NoticeEmployee from '../components/employee/notice';
 import Dashboard from './dashboard';
 import MyAccount from './myaccount';
+import Notices from './notices';
 function Home (){
     return(
         <Box display="flex" width="100%" h={'75%'} bg="#e6e7f2">
@@ -20,6 +21,7 @@ function Home (){
                <Route  path="noticedemande" element={<NoticeEmployee />} />
                <Route  path="myaccount" element={<MyAccount />} />
                <Route  path="service_employees" element={<ServiceEmployee />} />
+               <Route  path="notices" element={<Notices />} />
            </Routes>
         </Box>
     )

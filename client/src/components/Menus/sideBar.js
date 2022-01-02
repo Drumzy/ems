@@ -13,7 +13,6 @@ function SideBar() {
         <Box width='30%' height="100vh" bgcolor="white" >
             <Heading as="h3" size='lg' mx={75} marginTop="25px" w="150px">EMS APP</Heading>
             <Box height="500px" display="flex" flexDirection="column" justifyContent="center" alignItems="flex-start" marginLeft="5px">   
-                    <Link href="/home/dashboard" className="side-bar-link" my="5px"><Flex alignItems="center"><FcBarChart /> Dashboard</Flex></Link>
                     {authContext.user.Rank === "isAdmin" ? 
                         <Box >
                         <Link href="/home/employees" className="side-bar-link" my="5px"><Flex alignItems="center"><FcBarChart />Gestion des employees</Flex></Link>
@@ -25,8 +24,9 @@ function SideBar() {
                     }
                     {authContext.user.Rank === "isChef" ?
                         <Box >
+                        <Link href="/home/service_employees" className="side-bar-link" my="5px"><Flex alignItems="center" ><FcBarChart />Gestion des employees</Flex></Link>    
                         <Link href="/home/noticedemande" className="side-bar-link" my="5px"><Flex alignItems="center" ><FcBarChart />Demande Congée</Flex></Link>
-                        <Link href="/home/service_employees" className="side-bar-link" my="5px"><Flex alignItems="center" ><FcBarChart />Gestion des employees</Flex></Link>
+                        <Link href="/home/notices" className='side-bar-link' my={'5px'}><Flex alignItems="center" ><FcBarChart />Gestion Congée</Flex></Link>
                         </Box>
                         :
                         null
@@ -35,6 +35,7 @@ function SideBar() {
                     {authContext.user.Rank === "isEmployee" ?
                         <Box >
                         <Link href="/home/noticedemande" className="side-bar-link" my="5px"><Flex alignItems="center" ><FcBarChart />Demande Congée</Flex></Link>
+                        <Link href="/home/notices" className='side-bar-link' my={'5px'}><Flex alignItems="center" ><FcBarChart />Gestion Congée</Flex></Link>
                         </Box>
                         :
                         <p></p>

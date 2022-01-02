@@ -72,7 +72,11 @@ function RolesAndPermissions() {
                         exist = true;
                         setErrorMessage("Employee déja affecter a cette service");
                     }
-            })
+            });
+            if(firstName === res.data.ServiceChef.firstName && lastName === res.data.ServiceChef.lastName){
+                exist = true;
+                setErrorMessage("Employee saisi deja assignée Chef du cette Service");
+            }
             if(exist === false){
                 const body = {Service_id:selectedService,Employee_id:selectedEmployee.userId};
                 axios.post("http://localhost:3500/api/service/push_employee",body).then((res)=>{
@@ -92,6 +96,7 @@ function RolesAndPermissions() {
             if(service.ServiceChef !== null){
                 if(service.ServiceChef.firstName === firstName && service.ServiceChef.lastName === lastName){
                  exist = true ;  
+                 setErrorMessage("Employee déja Chef de cette service");
             }
         }
      });

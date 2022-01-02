@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
         type: Number,
         required:true,
         min:0,
-        max:150,
+        max:30,
     }
 });
 
@@ -63,7 +63,7 @@ const validateUser = (user) => {
         email: Joi.string().min(5).max(255).required(),
         password: Joi.string().min(5).max(1024).required(),
         Rank: Joi.string().valid('isAdmin', 'isEmployee', 'isChef').required(),
-        Credit: Joi.number().min(0).max(150).required(),
+        Credit: Joi.number().min(0).max(30).required(),
     }
     return Joi.validate(user, schema);
 }

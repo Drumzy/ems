@@ -52,7 +52,7 @@ router.post("/delete_service",auth, async (req, res)=>{
 })
 router.get("/serviceId=:_id",async (req,res) =>{
     const service = await Service.findById(req.params._id).populate({ path:'Employees',
-        select:'-password',});
+        select:'-password',}).populate({path:'ServiceChef',select:'-password'});
     if(!service) return res.status(404).json({message:'Service not Found'});
 
     return res.json(_.pick(service,

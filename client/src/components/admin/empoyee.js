@@ -73,6 +73,7 @@ function Employees() {
             email : email,
             password : password,
             Rank : rank1,
+            Credit: 150,
         }
         const headers = {
             'Content-Type':'application/json',

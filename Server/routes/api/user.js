@@ -117,7 +117,7 @@ router.post("/userByName", auth,async (req, res) =>{
         firstName: req.body.firstName,
         lastName : req.body.lastName
     }
-    let user = await User.findOne({firstName:filter.firstName,lastName:filter.lastName,Rank:'isEmployee'});
+    let user = await User.findOne({firstName:filter.firstName,lastName:filter.lastName});
     if(!user) return res.status(404).json({message:'User not found'});
 
     return res.status(200).json({userId:user['_id']});

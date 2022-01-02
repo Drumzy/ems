@@ -48,7 +48,9 @@ function MyAccount() {
                 <Heading size={'md'}>Prénom</Heading>
                 <Text>{authContext.user.lastName}</Text>
                 <Heading size={'md'}>Email</Heading>
-                <Text>{authContext.user.email}</Text>   
+                <Text>{authContext.user.email}</Text>  
+                <Heading size={'md'}>Credit</Heading>
+                <Text>{authContext.user.Credit}</Text> 
                 <Button my={3} colorScheme={'orange'} variant={'outline'} onClick={onOpen}>Modifier</Button> 
                 </Box>
                 
