@@ -13,6 +13,9 @@ router.get("/all", auth, async (req, res) => {
         {
         path:'ServiceChef',
         select:'-password',
+        }).populate({
+            path:'Employees',
+            select:'-password'
         });
     let result = services ;
     res.status(200).json(result);

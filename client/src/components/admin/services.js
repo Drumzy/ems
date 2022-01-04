@@ -24,10 +24,9 @@ function Services() {
     const [viewModal,setviewModal] = useState(false);
     const [updateModal,setupdateModal] = useState(false);
     const [deleteModal,setdeleteModal] = useState(false);
-    const [service_view,setServiceView] = useState([]);
+    const [service_view,setServiceView] = useState({_id:'',ServiceName:'',ServiceChef:{_id:'',email:'',firstName:'',lastName:'',picture:'',Rank:'',Credit:''},EmployeeNumber:0,Employees:[{_id:'',email:'',firstName:'',lastName:'',picture:'',Rank:'',Credit:''}]});
     const [serviceChef,setServiceChef] = useState([]);
     const [serviceEmployee, setServiceEmployee] = useState([]);
-    let chefs =[];
     let employees = [];
     const selectModal = (service_id,e) =>{
         if(e === "add-service-btn"){
@@ -199,6 +198,12 @@ function Services() {
                               {serviceChef != null ? <Text marginBottom={5}>{serviceChef.lastName +" "+ serviceChef.firstName}</Text> : ''}
                               <Heading size={'sm'} >Nombre des employees</Heading>
                               {serviceChef != null ? <Text marginBottom={5}>{service_view.EmployeeNumber}</Text> : ''}
+                              <Heading size={'sm'}>Liste des employees</Heading>
+                              {service_view.Employees.map(employee =>
+                                employee != null ?
+                                <Text>{employee.firstName + ' ' + employee.lastName}</Text>
+                                : null
+                                )}
                           </Box>
                         </Box>
                     </ModalBody>
